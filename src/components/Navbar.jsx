@@ -8,14 +8,12 @@ import { usePathname } from "next/navigation";
 const Navbar = () => {
   const pathname = usePathname();
 
-  // hydration fix
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // prevent hydration mismatch
   if (!mounted) return null;
 
   const navLink = (path) =>
@@ -30,12 +28,7 @@ const Navbar = () => {
       shadow-[0_8px_30px_rgb(0,0,0,0.4)] border-b border-cyan-700/40"
     >
       <div className="flex gap-2 text-white font-bold items-center text-2xl">
-        <Image
-          src="/assets/idea.png"
-          width={60}
-          height={50}
-          alt="logo"
-        />
+        <Image src="/assets/idea.png" width={60} height={50} alt="logo" />
 
         <p className="bg-gradient-to-r from-cyan-300 to-emerald-300 bg-clip-text text-transparent">
           IdeaVault
@@ -62,10 +55,7 @@ const Navbar = () => {
         </li>
 
         <li>
-          <Link
-            href="/my-interactions"
-            className={navLink("/my-interactions")}
-          >
+          <Link href="/my-interactions" className={navLink("/my-interactions")}>
             My Interactions
           </Link>
         </li>
