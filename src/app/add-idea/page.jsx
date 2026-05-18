@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 export default function IdeaForm() {
   const [form, setForm] = useState({
@@ -25,9 +26,54 @@ export default function IdeaForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const ideavault = Object.fromEntries(formData.entries());
-    console.log("ideavault Data:", ideavault);
+
+    const toastId = toast.loading("Submitting idea...");
+
+    try {
+      const formData = new FormData(e.currentTarget);
+      const idea = Object.fromEntries(formData.entries());
+
+      const res = await fetch("http://localhost:5000/idea", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(idea),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        toast.success("Idea submitted successfully!", {
+          id: toastId,
+        });
+
+        console.log("Response Data:", data);
+
+        setForm({
+          title: "",
+          shortDescription: "",
+          detailedDescription: "",
+          category: "Tech",
+          tags: "",
+          imageUrl: "",
+          estimatedBudget: "",
+          targetAudience: "",
+          problemStatement: "",
+          proposedSolution: "",
+        });
+      } else {
+        toast.error("Failed to submit idea!", {
+          id: toastId,
+        });
+      }
+    } catch (error) {
+      console.error(error);
+
+      toast.error("Something went wrong!", {
+        id: toastId,
+      });
+    }
   };
 
   return (
