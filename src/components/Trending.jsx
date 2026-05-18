@@ -14,7 +14,7 @@ const Trending = async () => {
       <div className="max-w-6xl mx-auto">
 
         <h2 className="text-3xl font-bold my-6 text-center text-gray-800">
-          🔥 Trending Ideas Section
+           Trending Ideas Section
         </h2>
 
         <div className="grid md:grid-cols-3 gap-6">
