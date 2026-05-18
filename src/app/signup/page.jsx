@@ -1,0 +1,126 @@
+"use client";
+import { authClient } from "@/lib/auth-client";
+import { Check } from "@gravity-ui/icons";
+import {
+  Button,
+  Description,
+  FieldError,
+  Form,
+  Input,
+  Label,
+  TextField,
+  toast,
+} from "@heroui/react";
+import { redirect, useRouter } from "next/navigation";
+import { AiFillGoogleCircle } from "react-icons/ai";
+
+const signUpPage = () => {
+  const router = useRouter();
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    const name = e.target.name.value;
+    const image = e.target.image.value;
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+    // console.log({ name, image, email, password });
+
+    const { data, error } = await authClient.signUp.email({
+      name,
+      image,
+      email,
+      password,
+    });
+    console.log({ data, error });
+
+    if(data){
+        redirect('/')
+    }
+
+    if(error){
+        // 
+    }
+  };
+
+  return (
+    <div className="w-6/12 space-y-4 mx-auto my-6 border p-6 shadow-2xl py-9 rounded-2xl">
+      <h2 className="text-2xl font-bold text-center">Create Account</h2>
+
+      <Form className="flex flex-col gap-4 space-y-2" onSubmit={onSubmit}>
+        <TextField isRequired name="name" type="text">
+          <Label>Name</Label>
+          <Input placeholder="Enter your name" />
+          <FieldError />
+        </TextField>
+
+        <TextField isRequired name="image" type="text">
+          <Label>Image URL</Label>
+          <Input placeholder="Image Url" />
+          <FieldError />
+        </TextField>
+
+        <TextField
+          isRequired
+          name="email"
+          type="email"
+          validate={(value) => {
+            if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value)) {
+              return "Please enter a valid email address";
+            }
+            return null;
+          }}
+        >
+          <Label>Email</Label>
+          <Input placeholder="john@example.com" />
+          <FieldError />
+        </TextField>
+
+        <TextField
+          isRequired
+          minLength={8}
+          name="password"
+          type="password"
+          validate={(value) => {
+            if (value.length < 8) {
+              return "Password must be at least 8 characters";
+            }
+            if (!/[A-Z]/.test(value)) {
+              return "Password must contain at least one uppercase letter";
+            }
+            if (!/[0-9]/.test(value)) {
+              return "Password must contain at least one number";
+            }
+            return null;
+          }}
+        >
+          <Label>Password</Label>
+          <Input placeholder="Enter your password" />
+          <Description>
+            Must be at least 8 characters with 1 uppercase and 1 number
+          </Description>
+          <FieldError />
+        </TextField>
+
+        <div className="flex flex-col gap-3">
+          <Button
+            className="w-full text-white text-md font-bold bg-[#15A1BF]"
+            type="submit"
+          >
+            <Check />
+            Create Account
+          </Button>
+        </div>
+      </Form>
+      <p className="text-2xl whitespace-nowrap font-bold text-center text-gray-400">
+        Or sing up with
+      </p>
+
+      <Button className="w-full text-xl">
+        <AiFillGoogleCircle />
+        Sign In with Google
+      </Button>
+    </div>
+  );
+};
+
+export default signUpPage;
