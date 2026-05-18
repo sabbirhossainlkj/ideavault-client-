@@ -1,4 +1,6 @@
+import About from "@/components/About";
 import Banner from "@/components/Banner";
+import Insights from "@/components/Insights";
 import Trending from "@/components/Trending";
 
 export default function Home() {
@@ -6,6 +8,8 @@ export default function Home() {
    <>
    <Banner></Banner>
    <Trending></Trending>
+   <About></About>
+   <Insights></Insights>
    </>
   );
 }
