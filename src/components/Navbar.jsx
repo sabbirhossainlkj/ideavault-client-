@@ -6,17 +6,24 @@ import React, { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import { Avatar, Button } from "@heroui/react";
+import { MdDarkMode } from "react-icons/md";
+import { IoIosSunny } from "react-icons/io";
 
 const Navbar = () => {
   const { data: session } = authClient.useSession();
   const user = session?.user;
-  console.log(user);
+
   const pathname = usePathname();
 
   const [mounted, setMounted] = useState(false);
+  const [theme, setTheme] = useState("light");
 
   useEffect(() => {
     setMounted(true);
+
+    const savedTheme = localStorage.getItem("theme") || "light";
+    setTheme(savedTheme);
+    document.documentElement.classList.toggle("dark", savedTheme === "dark");
   }, []);
 
   if (!mounted) return null;
@@ -24,111 +31,86 @@ const Navbar = () => {
   const navLink = (path) =>
     pathname === path
       ? "text-cyan-300 border-b-2 border-cyan-300 pb-1"
-      : "text-gray-200 hover:text-cyan-300 transition duration-300";
+      : "text-gray-200 hover:text-cyan-300 transition";
 
-  const handleSingOut = async () => {
+  const toggleTheme = () => {
+    const newTheme = theme === "light" ? "dark" : "light";
+    setTheme(newTheme);
+
+    document.documentElement.classList.toggle("dark", newTheme === "dark");
+
+    localStorage.setItem("theme", newTheme);
+  };
+
+  const handleSignOut = async () => {
     await authClient.signOut();
   };
-  return (
-    <div
-      className="flex justify-between items-center px-8 py-5
-      bg-gradient-to-r from-[#0f172a] via-[#1e293b] to-[#0f766e]
-      shadow-[0_8px_30px_rgb(0,0,0,0.4)] border-b border-cyan-700/40"
-    >
-      <div className="flex gap-2 text-white font-bold items-center text-2xl">
-        <Image src="/assets/idea.png" width={60} height={50} alt="logo" />
 
+  return (
+    <div className="flex justify-between items-center px-8 py-5 bg-gradient-to-r from-[#0f172a] via-[#1e293b] to-[#0f766e] shadow-lg border-b border-cyan-700/40">
+      <div className="flex gap-2 text-white font-bold items-center text-2xl">
+        <Image src="/assets/idea.png" width={70} height={60} alt="logo" />
         <p className="bg-gradient-to-r from-cyan-300 to-emerald-300 bg-clip-text text-transparent">
           IdeaVault
         </p>
       </div>
 
-      <ul className="flex gap-6 font-bold items-center text-xl">
-        <li>
-          <Link href="/" className={navLink("/")}>
-            Home
-          </Link>
-        </li>
+      <div className="flex gap-6 font-bold items-center text-xl">
+        <Link href="/" className={navLink("/")}>
+          Home
+        </Link>
+        <Link href="/ideas" className={navLink("/ideas")}>
+          Ideas
+        </Link>
+        <Link href="/my-ideas" className={navLink("/my-ideas")}>
+          My Ideas
+        </Link>
+        <Link href="/my-interactions" className={navLink("/my-interactions")}>
+          Interactions
+        </Link>
+        <Link href="/add-idea" className={navLink("/add-idea")}>
+          Add Idea
+        </Link>
+      </div>
 
-        <li>
-          <Link href="/ideas" className={navLink("/ideas")}>
-            Ideas
-          </Link>
-        </li>
+      <div className="flex gap-4 items-center text-xl font-bold">
+        <button
+          onClick={toggleTheme}
+          className="px-3 py-1 rounded-xl bg-gray-200 dark:bg-gray-700 text-black dark:text-white transition"
+        >
+          {theme === "light" ? <MdDarkMode /> : <IoIosSunny />}
+        </button>
 
-        <li>
-          <Link href="/my-ideas" className={navLink("/my-ideas")}>
-            My Ideas
-          </Link>
-        </li>
+        <Link href="/profile" className={navLink("/profile")}>
+          Profile
+        </Link>
 
-        <li>
-          <Link href="/my-interactions" className={navLink("/my-interactions")}>
-            My Interactions
-          </Link>
-        </li>
-
-        <li>
-          <Link href="/add-idea" className={navLink("/add-idea")}>
-            Add Idea
-          </Link>
-        </li>
-      </ul>
-
-      <ul className="flex gap-6 items-center text-xl font-bold">
-        <li>
-          <Link href="/profile" className={navLink("/profile")}>
-            Profile
-          </Link>
-        </li>
-
-        {/* <li>
-          <Link href="/signin">
-            <button className="px-4 py-2 rounded-xl bg-cyan-500 hover:bg-cyan-600 text-white transition duration-300 shadow-lg">
+        {!user ? (
+          <>
+            <Link href="/signin" className={navLink("/signin")}>
               Sign In
-            </button>
-          </Link>
-        </li>
-
-        <li>
-          <Link href="/signup">
-            <button className="px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white transition duration-300 shadow-lg">
+            </Link>
+            <Link href="/signup" className={navLink("/signup")}>
               Sign Up
-            </button>
-          </Link>
-        </li> */}
-
-        {!user && (
-          <div className="flex  gap-3">
-            <li>
-              <Link href="/signin" className={navLink("/signin")}>
-                Sign In
-              </Link>
-            </li>
-
-            <li>
-              <Link href="/signup" className={navLink("/signup")}>
-                Sign Up
-              </Link>
-            </li>
-          </div>
-        )}
-        {user && (
+            </Link>
+          </>
+        ) : (
           <div className="flex items-center gap-3">
             <Avatar size="sm">
               <Avatar.Image
                 referrerPolicy="no-referrer"
-                alt="sabbir hossain"
                 src={user?.image}
+                alt={user?.name}
               />
-              <Avatar.Fallback>{user?.name.charAt(0)}</Avatar.Fallback>
+              <Avatar.Fallback>{user?.name?.charAt(0)}</Avatar.Fallback>
             </Avatar>
-            <Button onClick={handleSingOut} size="sm" variant="danger">
+
+            <Button onClick={handleSignOut} size="sm">
               SignOut
             </Button>
           </div>
         )}
-      </ul>
+      </div>
     </div>
   );
 };
