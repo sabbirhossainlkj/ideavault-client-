@@ -33,19 +33,19 @@ const signUpPage = () => {
     });
     console.log({ data, error });
 
-    if(data){
-        redirect('/')
+    if (data) {
+      redirect("/");
     }
 
-    if(error){
-        // 
+    if (error) {
+      //
     }
   };
-  //   const handleGoogleSingIn = async () => {
-  //     const promise = authClient.signIn.social({
-  //       provider: "google",
-  //     });
-  //   };
+  const handleGoogleSingIn = async () => {
+    const promise = authClient.signIn.social({
+      provider: "google",
+    });
+  };
 
   return (
     <div className="w-6/12 space-y-4 mx-auto my-6 border p-6 shadow-2xl py-9 rounded-2xl">
@@ -120,7 +120,7 @@ const signUpPage = () => {
         Or sing up with
       </p>
 
-      <Button className="w-full text-xl">
+      <Button onClick={handleGoogleSingIn} className="w-full text-xl">
         <AiFillGoogleCircle />
         Sign In with Google
       </Button>
