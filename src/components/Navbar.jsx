@@ -4,8 +4,13 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
+import { authClient } from "@/lib/auth-client";
+import { Avatar, Button } from "@heroui/react";
 
 const Navbar = () => {
+  const { data: session } = authClient.useSession();
+  const user = session?.user;
+  console.log(user);
   const pathname = usePathname();
 
   const [mounted, setMounted] = useState(false);
@@ -21,6 +26,9 @@ const Navbar = () => {
       ? "text-cyan-300 border-b-2 border-cyan-300 pb-1"
       : "text-gray-200 hover:text-cyan-300 transition duration-300";
 
+  const handleSingOut = async () => {
+    await authClient.signOut();
+  };
   return (
     <div
       className="flex justify-between items-center px-8 py-5
@@ -74,7 +82,7 @@ const Navbar = () => {
           </Link>
         </li>
 
-        <li>
+        {/* <li>
           <Link href="/signin">
             <button className="px-4 py-2 rounded-xl bg-cyan-500 hover:bg-cyan-600 text-white transition duration-300 shadow-lg">
               Sign In
@@ -88,7 +96,38 @@ const Navbar = () => {
               Sign Up
             </button>
           </Link>
-        </li>
+        </li> */}
+
+        {!user && (
+          <div className="flex  gap-3">
+            <li>
+              <Link href="/signin" className={navLink("/signin")}>
+                Sign In
+              </Link>
+            </li>
+
+            <li>
+              <Link href="/signup" className={navLink("/signup")}>
+                Sign Up
+              </Link>
+            </li>
+          </div>
+        )}
+        {user && (
+          <div className="flex items-center gap-3">
+            <Avatar size="sm">
+              <Avatar.Image
+                referrerPolicy="no-referrer"
+                alt="sabbir hossain"
+                src={user?.image}
+              />
+              <Avatar.Fallback>{user?.name.charAt(0)}</Avatar.Fallback>
+            </Avatar>
+            <Button onClick={handleSingOut} size="sm" variant="danger">
+              SignOut
+            </Button>
+          </div>
+        )}
       </ul>
     </div>
   );

@@ -22,15 +22,21 @@ const signInPage = () => {
     const email = e.target.email.value;
     const password = e.target.password.value;
 
+
     const { data, error } = await authClient.signIn.email({
       email,
       password,
       callbackURL: "/",
     });
+    console.log({ data, error });
 
   };
 
-
+//   const handleGoogleSingIn = async () => {
+//     const promise = authClient.signIn.social({
+//       provider: "google",
+//     });
+//   };
 
   return (
     <div className="w-6/12 space-y-4 mx-auto my-6 border p-6 shadow-2xl py-9 rounded-2xl">
