@@ -11,59 +11,32 @@ import {
   TextField,
   toast,
 } from "@heroui/react";
-import { redirect, useRouter } from "next/navigation";
 import { AiFillGoogleCircle } from "react-icons/ai";
+import { useRouter } from "next/navigation";
 
-const signUpPage = () => {
+const signInPage = () => {
   const router = useRouter();
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    const name = e.target.name.value;
-    const image = e.target.image.value;
     const email = e.target.email.value;
     const password = e.target.password.value;
-    // console.log({ name, image, email, password });
 
-    const { data, error } = await authClient.signUp.email({
-      name,
-      image,
+    const { data, error } = await authClient.signIn.email({
       email,
       password,
+      callbackURL: "/",
     });
-    console.log({ data, error });
 
-    if(data){
-        redirect('/')
-    }
-
-    if(error){
-        // 
-    }
   };
-  //   const handleGoogleSingIn = async () => {
-  //     const promise = authClient.signIn.social({
-  //       provider: "google",
-  //     });
-  //   };
+
+
 
   return (
     <div className="w-6/12 space-y-4 mx-auto my-6 border p-6 shadow-2xl py-9 rounded-2xl">
-      <h2 className="text-2xl font-bold text-center">Create Account</h2>
+      <h2 className="text-2xl font-bold text-center">Sing in</h2>
 
       <Form className="flex flex-col gap-4 space-y-2" onSubmit={onSubmit}>
-        <TextField isRequired name="name" type="text">
-          <Label>Name</Label>
-          <Input placeholder="Enter your name" />
-          <FieldError />
-        </TextField>
-
-        <TextField isRequired name="image" type="text">
-          <Label>Image URL</Label>
-          <Input placeholder="Image Url" />
-          <FieldError />
-        </TextField>
-
         <TextField
           isRequired
           name="email"
@@ -75,7 +48,7 @@ const signUpPage = () => {
             return null;
           }}
         >
-          <Label>Email</Label>
+          <Label>Email Address</Label>
           <Input placeholder="john@example.com" />
           <FieldError />
         </TextField>
@@ -106,13 +79,13 @@ const signUpPage = () => {
           <FieldError />
         </TextField>
 
-        <div className="flex flex-col gap-3">
+        <div className="flex justify-between items-center gap-3">
           <Button
             className="w-full text-white text-md font-bold bg-[#15A1BF]"
             type="submit"
           >
             <Check />
-            Create Account
+            Sing In
           </Button>
         </div>
       </Form>
@@ -128,4 +101,4 @@ const signUpPage = () => {
   );
 };
 
-export default signUpPage;
+export default signInPage;
