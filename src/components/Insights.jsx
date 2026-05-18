@@ -12,7 +12,7 @@ const IdeaStats = ({ ideas = [] }) => {
   const topCategory =
     Object.keys(categories).length > 0
       ? Object.keys(categories).reduce((a, b) =>
-          categories[a] > categories[b] ? a : b,
+          categories[a] > categories[b] ? a : b
         )
       : "No Data";
 
@@ -26,17 +26,24 @@ const IdeaStats = ({ ideas = [] }) => {
       : "0.00";
 
   return (
-    <div className="max-w-6xl mx-auto my-10 px-4">
-      <h2 className="text-3xl text-center font-bold mb-8 text-gray-800">
-        Idea Insights Dashboard
-      </h2>
+    <div className="bg-gradient-to-br from-gray-100 via-cyan-50 to-purple-100 py-6 px-4">
 
-      <div className="grid md:grid-cols-3 gap-6">
-        <Card title="Total Ideas" value={totalIdeas} color="cyan" />
+      <div className="max-w-6xl mx-auto">
 
-        <Card title="Top Category" value={topCategory} color="purple" />
+        <h2 className="text-3xl text-center font-bold mb-8 text-gray-800">
+           Idea Insights Dashboard
+        </h2>
 
-        <Card title="Avg Budget" value={`$${avgBudget}`} color="green" />
+        <div className="grid md:grid-cols-3 gap-6">
+
+          <Card title="Total Ideas" value={totalIdeas} color="cyan" />
+
+          <Card title="Top Category" value={topCategory} color="purple" />
+
+          <Card title="Avg Budget" value={`$${avgBudget}`} color="green" />
+
+        </div>
+
       </div>
     </div>
   );
@@ -52,10 +59,16 @@ const Card = ({ title, value, icon, color }) => {
   };
 
   return (
-    <div className="bg-white border rounded-2xl shadow p-6 text-center hover:shadow-xl transition">
+    <div className="bg-white/80 backdrop-blur-lg border border-gray-200 rounded-2xl shadow-lg p-6 text-center hover:shadow-2xl hover:-translate-y-1 transition duration-300">
+
       <div className="text-2xl">{icon}</div>
+
       <h3 className="text-gray-500 text-sm mt-2">{title}</h3>
-      <p className={`text-3xl font-bold mt-2 ${colors[color]}`}>{value}</p>
+
+      <p className={`text-3xl font-bold mt-2 ${colors[color]}`}>
+        {value}
+      </p>
+
     </div>
   );
 };
