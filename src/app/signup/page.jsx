@@ -61,21 +61,18 @@ const SignUpPage = () => {
       <h2 className="text-2xl font-bold text-center">Sign Up</h2>
 
       <Form className="flex flex-col gap-4 space-y-2" onSubmit={onSubmit}>
-        {/* Name */}
         <TextField isRequired name="name" type="text">
           <Label>Name</Label>
           <Input placeholder="Enter your name" />
           <FieldError />
         </TextField>
 
-        {/* Image */}
         <TextField isRequired name="image" type="text">
           <Label>Image URL</Label>
           <Input placeholder="Image URL" />
           <FieldError />
         </TextField>
 
-        {/* Email */}
         <TextField
           isRequired
           name="email"
@@ -92,7 +89,6 @@ const SignUpPage = () => {
           <FieldError />
         </TextField>
 
-        {/* Password */}
         <TextField
           isRequired
           minLength={8}
@@ -119,7 +115,6 @@ const SignUpPage = () => {
           <FieldError />
         </TextField>
 
-        {/* Submit */}
         <Button
           className="w-full text-white text-md font-bold bg-[#15A1BF]"
           type="submit"
@@ -133,7 +128,6 @@ const SignUpPage = () => {
         Or sign up with
       </p>
 
-      {/* Google */}
       <Button onClick={handleGoogleSingIn} className="w-full bg-[#15A1BF] text-xl">
         <AiFillGoogleCircle />
         Sign Up with Google

@@ -80,7 +80,7 @@ const IdeaDetailsPage = async ({ params }) => {
           )}
         </div>
       </div>
-      {/* Review Form Card Section */}
+
       <PostComment ideas={ideas}></PostComment>
       <CommentCard></CommentCard>
     </div>

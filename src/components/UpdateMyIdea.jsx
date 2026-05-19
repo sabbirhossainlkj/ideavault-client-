@@ -37,6 +37,7 @@ export function UpdateMyIdea({ idea }) {
       );
 
       const data = await res.json();
+      console.log(data)
 
       if (data.success) {
         toast.success("Idea updated successfully ");

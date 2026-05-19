@@ -1,6 +1,10 @@
 import React from "react";
 import Image from "next/image";
 import { MessageCircle, Clock3 } from "lucide-react";
+import { Button } from "@heroui/react";
+import { DeleteComment } from "./DeleteComment";
+import { UpdateComment } from "./UpdateComment";
+import { CommentSlash } from "@gravity-ui/icons";
 
 const CommentCard = async () => {
   const res = await fetch("http://localhost:5000/comment", {
@@ -28,9 +32,9 @@ const CommentCard = async () => {
       )}
 
       <div className="space-y-6">
-        {comments.map((comment, index) => (
+        {comments.map((coment) => (
           <div
-            key={comment._id}
+            key={coment._id}
             className="group relative overflow-hidden rounded-[28px] border border-white/20 bg-white/70 backdrop-blur-xl p-6 shadow-lg transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl"
           >
             <div className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
@@ -42,9 +46,9 @@ const CommentCard = async () => {
               <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-full border-4 border-white shadow-lg ring-2 ring-pink-300">
                 <Image
                   src={
-                    comment.userImage || "https://i.ibb.co/4pDNDk1/avatar.png"
+                    coment.userImage || "https://i.ibb.co/4pDNDk1/avatar.png"
                   }
-                  alt={comment.userName}
+                  alt={coment.userName}
                   fill
                   className="object-cover"
                 />
@@ -54,19 +58,23 @@ const CommentCard = async () => {
                 <div className="flex flex-wrap items-center justify-between gap-3">
                   <div>
                     <h3 className="text-lg font-bold text-gray-800">
-                      {comment.userName}
+                      {coment.userName}
                     </h3>
 
                     <div className="mt-1 flex items-center gap-1 text-xs text-gray-400">
                       <Clock3 size={13} />
-                      {new Date(comment.createdAt).toLocaleString()}
+                      {new Date(coment.createdAt).toLocaleString()}
                     </div>
                   </div>
+                </div>
+                <div className="absolute top-5 right-5 z-20 flex items-center gap-3">
+                  <UpdateComment coment={coment} />
+                  <DeleteComment coment={coment} />
                 </div>
 
                 <div className="mt-4 rounded-2xl bg-gray-50/80 p-4 border border-gray-100">
                   <p className="leading-relaxed text-gray-700 text-sm md:text-base">
-                    {comment.comment}
+                    {coment.comment}
                   </p>
                 </div>
               </div>

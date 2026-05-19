@@ -1,15 +1,20 @@
 "use client";
+
 import { authClient } from "@/lib/auth-client";
 import { Button } from "@heroui/react";
+import { toast } from "react-hot-toast";
 
-const PostComment = ({ideas}) => {
+const PostComment = ({ ideas }) => {
   const { data: session } = authClient.useSession();
   const user = session?.user;
-  console.log(user);
 
-//   
   const handleComment = async (e) => {
     e.preventDefault();
+
+    if (!user) {
+      toast.error("Please login first");
+      return;
+    }
 
     const form = e.target;
     const comment = form.review.value;
@@ -20,20 +25,32 @@ const PostComment = ({ideas}) => {
       userName: user?.name,
       userImage: user?.image,
       comment,
-      createdAt:new Date()
+      createdAt: new Date(),
     };
 
-    const res = await fetch("http://localhost:5000/comment", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(commentData),
-    });
+    try {
+      const res = await fetch("http://localhost:5000/comment", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(commentData),
+      });
 
-    const data = await res.json();
+      const data = await res.json();
 
-    
+      if (data.insertedId || data.success) {
+        toast.success("Comment posted successfully 💬");
+
+        form.reset();
+      } else {
+        toast.error("Failed to post comment");
+      }
+    } catch (error) {
+      console.log(error);
+
+      toast.error("Something went wrong");
+    }
   };
 
   return (
@@ -55,7 +72,7 @@ const PostComment = ({ideas}) => {
           <Button
             variant="primary"
             type="submit"
-            className="px-8 py-3 rounded-2xl  text-white font-semibold text-sm tracking-wide shadow-md hover:scale-105 hover:shadow-lg transition-all duration-300"
+            className="px-8 py-3 rounded-2xl text-white font-semibold text-sm tracking-wide shadow-md hover:scale-105 hover:shadow-lg transition-all duration-300"
           >
             Post Comment
           </Button>
