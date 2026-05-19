@@ -9,21 +9,20 @@ const slides = [
   {
     id: 1,
     image:
-      "https://images.unsplash.com/photo-1521737604893-d14cc237f11d",
+      "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=1600&q=80",
     title: "Turn Ideas Into Reality",
     desc: "Build, share, and grow your startup ideas with a powerful innovation platform.",
   },
   {
     id: 2,
     image:
-      "https://images.unsplash.com/photo-1559136555-9303baea8ebd",
+      "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1600&q=80",
     title: "AI-Powered Innovation",
     desc: "Use modern AI tools to transform your ideas into real-world solutions faster than ever.",
   },
   {
     id: 3,
-    image:
-      "https://images.unsplash.com/photo-1523961131990-5ea7c61b2107",
+    image: "https://images.unsplash.com/photo-1523961131990-5ea7c61b2107",
     title: "Connect With Creators",
     desc: "Join a community of developers, founders, and innovators shaping the future.",
   },
@@ -32,7 +31,6 @@ const slides = [
 const Banner = () => {
   return (
     <section className="relative w-full h-[80vh] overflow-hidden">
-
       <Swiper
         modules={[Autoplay, Pagination]}
         autoplay={{ delay: 4000, disableOnInteraction: false }}
@@ -42,7 +40,6 @@ const Banner = () => {
       >
         {slides.map((slide) => (
           <SwiperSlide key={slide.id}>
-            
             <div
               className="absolute inset-0 bg-cover bg-center scale-110"
               style={{ backgroundImage: `url(${slide.image})` }}
@@ -51,25 +48,18 @@ const Banner = () => {
             <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/30" />
 
             <div className="relative z-20 h-full flex items-center justify-center px-6">
-
               <div className=" p-8 md:p-12 rounded-2xl text-center max-w-2xl ">
-
                 <h1 className="text-3xl md:text-5xl font-bold text-white mb-4">
                   {slide.title}
                 </h1>
 
-                <p className="text-gray-200 mb-6">
-                  {slide.desc}
-                </p>
+                <p className="text-gray-200 mb-6">{slide.desc}</p>
 
                 <button className="px-8 py-3 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 text-white font-semibold rounded-full hover:scale-105 transition-all shadow-lg">
                   Explore Ideas
                 </button>
-
               </div>
-
             </div>
-
           </SwiperSlide>
         ))}
       </Swiper>

@@ -35,9 +35,7 @@ const IdeaPage = () => {
 
     setLoading(true);
 
-    const res = await fetch(
-      `http://localhost:5000/ideas/search?q=${query}`
-    );
+    const res = await fetch(`http://localhost:5000/ideas/search?q=${query}`);
 
     const data = await res.json();
     setIdeas(data);
@@ -70,10 +68,7 @@ const IdeaPage = () => {
 
   return (
     <div className="my-6 w-11/12 lg:w-10/12 mx-auto">
-
-      <h2 className="text-3xl font-bold text-center my-6">
-         All Ideas
-      </h2>
+      <h2 className="text-3xl font-bold text-center my-6">All Ideas</h2>
 
       <form
         onSubmit={handleSearch}
@@ -96,7 +91,6 @@ const IdeaPage = () => {
       </form>
 
       <div className="flex flex-wrap justify-center gap-3 mb-6">
-
         <select
           value={category}
           onChange={(e) => setCategory(e.target.value)}
@@ -109,31 +103,21 @@ const IdeaPage = () => {
           <option value="Education">Education</option>
         </select>
 
-        
-
-        
         <button
           onClick={handleFilter}
           className="bg-purple-500 text-white px-6 py-2 rounded-xl"
         >
           Apply Filter
         </button>
-
-        
       </div>
 
-      {loading && (
-        <p className="text-center text-gray-500 mb-4">
-          Loading...
-        </p>
-      )}
+      {loading && <p className="text-center text-gray-500 mb-4">Loading...</p>}
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {ideas.map((idea) => (
           <IdeaCard key={idea._id} idea={idea} />
         ))}
       </div>
-
     </div>
   );
 };

@@ -62,15 +62,7 @@ const MyIdeasPage = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {ideas.map((idea) => (
           <div key={idea._id} className="relative">
-            {/* Action Buttons */}
-            <div className="absolute top-4 left-20 right-0 z-30 flex items-center justify-between px-4">
-              <UpdateMyIdea idea={idea} />
-              <DeleteMyIdea idea={idea} />
-            </div>
-
-            {/* Card */}
             <div className="group relative overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
-              {/* Image */}
               <div className="relative h-56 overflow-hidden">
                 <Image
                   src={idea.imageUrl}
@@ -81,14 +73,16 @@ const MyIdeasPage = () => {
 
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
-                {/* Category */}
                 <div className="absolute top-4 left-4 flex items-center gap-2 rounded-full bg-white/90 px-4 py-1 text-sm font-semibold text-gray-800 shadow">
                   <Layers3 size={16} />
                   {idea.category}
                 </div>
+                <div className="absolute top-4 right-2 z-30 flex items-center justify-center gap-2 px-4">
+                  <UpdateMyIdea idea={idea} />
+                  <DeleteMyIdea idea={idea} />
+                </div>
               </div>
 
-              {/* Content */}
               <div className="space-y-4 p-5">
                 <div className="flex items-start gap-3">
                   <div className="rounded-xl bg-blue-100 p-2 text-blue-600">
@@ -112,7 +106,6 @@ const MyIdeasPage = () => {
                 </Link>
               </div>
 
-              {/* Glow */}
               <div className="absolute -bottom-16 -right-16 h-40 w-40 rounded-full bg-blue-500/10 blur-3xl" />
             </div>
           </div>

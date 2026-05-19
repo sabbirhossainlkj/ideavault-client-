@@ -51,7 +51,7 @@ export function UpdateMyIdea({ idea }) {
 
   return (
     <Modal>
-      <Button className="absolute top-4 right-4 z-20 flex items-center gap-2 hover:bg-yellow-600 text-white px-3 py-2 rounded-lg shadow-md">
+      <Button className="z-20 flex items-center gap-2 hover:bg-yellow-600 text-white px-3 py-2 rounded-xl shadow-md">
         <Pencil size={16} /> Edit
       </Button>
 

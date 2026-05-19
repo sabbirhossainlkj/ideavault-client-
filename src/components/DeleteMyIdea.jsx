@@ -38,7 +38,7 @@ export function DeleteMyIdea({ idea }) {
     <AlertDialog>
       <Button
         variant="danger"
-        className="flex items-center gap-2 px-6 py-3 bg-red-500 hover:bg-red-600 text-white rounded-2xl transition-all duration-300 shadow-md hover:shadow-lg"
+        className="flex items-center gap-2 px-6 py-3 bg-red-500 hover:bg-red-600 text-white rounded-xl transition-all duration-300 shadow-md hover:shadow-lg"
       >
         <Trash2 size={18} />
         Delete
