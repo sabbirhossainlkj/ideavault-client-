@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { ArrowRight, Lightbulb, Layers3 } from "lucide-react";
+import { ArrowRight, Lightbulb, Layers3, Pencil } from "lucide-react";
 
 const IdeaCard = ({ idea }) => {
   const {

@@ -1,36 +1,87 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 💡 IdeaVault
 
-## Getting Started
+IdeaVault is a modern idea-sharing platform built with **Next.js**. Users can create, explore, search, and filter innovative ideas with authentication and theme support.
 
-First, run the development server:
+Features
+🔐 Authentication (Sign In / Sign Up / Sign Out)
+🧠 Create & manage ideas
+🔎 Search ideas by title
+🎯 Filter ideas by category
+📅 Filter by date range
+🌗 Dark / Light theme support
+👤 User profile system
+❤️ My Ideas & Interactions tracking
+⚡ Responsive modern UI
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+🛠️ Tech Stack
+Framework: Next.js (App Router)
+Styling: Tailwind CSS
+UI Components: HeroUI
+Authentication: Custom auth client (authClient)
+State Management: React Hooks
+Icons: React Icons
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+📁 Project Structure
+app/
+page.js
+ideas/
+my-ideas/
+my-interactions/
+add-idea/
+profile/
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+components/
+Navbar.jsx
+IdeaCard.jsx
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+lib/
+auth-client.js
 
-## Learn More
+public/
+assets/
+idea.png
 
-To learn more about Next.js, take a look at the following resources:
+🎯 Filter Ideas
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Filter by:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Category (Tech, AI, Health, Education)
+Date range (startDate → endDate)
 
-## Deploy on Vercel
+🌗 Theme System
+Supports Dark / Light mode
+Stored in localStorage
+Applied using Tailwind dark class on <html>
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+🔐 Authentication
+Uses authClient.useSession()
+Logged-in users see avatar + sign out button
+Guests see Sign In / Sign Up options
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+🚀 Deployment
+
+The easiest way to deploy is using Vercel:
+
+https://vercel.com/new?utm_medium=default-template&filter=next.js
+
+For more details:
+https://nextjs.org/docs/app/building-your-application/deploying
+
+📌 Future Improvements
+🔥 Trending ideas algorithm
+❤️ Like & bookmark system
+💬 Comments system
+🔎 Smart search (AI-based)
+📊 Admin dashboard
+
+👨‍💻 Author
+
+Sabbir Hossain
+
+---
+
+If you want next level upgrade, I can also:
+
+- add **GitHub badges (Next.js, Tailwind, Vercel, Auth)**
+- add **banner image + screenshots section**
+- or make it **100% professional startup-level README (like real SaaS projects)**

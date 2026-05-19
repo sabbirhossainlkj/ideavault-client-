@@ -62,15 +62,22 @@ const Navbar = () => {
         <Link href="/ideas" className={navLink("/ideas")}>
           Ideas
         </Link>
-        <Link href="/my-ideas" className={navLink("/my-ideas")}>
-          My Ideas
-        </Link>
-        <Link href="/my-interactions" className={navLink("/my-interactions")}>
-          Interactions
-        </Link>
-        <Link href="/add-idea" className={navLink("/add-idea")}>
-          Add Idea
-        </Link>
+        {user && (
+          <div className="flex  gap-3">
+            <Link href="/my-ideas" className={navLink("/my-ideas")}>
+              My Ideas
+            </Link>
+            <Link
+              href="/my-interactions"
+              className={navLink("/my-interactions")}
+            >
+              Interactions
+            </Link>
+            <Link href="/add-idea" className={navLink("/add-idea")}>
+              Add Idea
+            </Link>
+          </div>
+        )}
       </div>
 
       <div className="flex gap-4 items-center text-xl font-bold">
@@ -88,15 +95,15 @@ const Navbar = () => {
         {!user ? (
           <>
             <Link href="/signin" className={navLink("/signin")}>
-              Sign In
+              LogIn
             </Link>
             <Link href="/signup" className={navLink("/signup")}>
-              Sign Up
+              Register
             </Link>
           </>
         ) : (
           <div className="flex items-center gap-3">
-            <Avatar size="sm">
+            <Avatar size="lg">
               <Avatar.Image
                 referrerPolicy="no-referrer"
                 src={user?.image}
@@ -105,7 +112,7 @@ const Navbar = () => {
               <Avatar.Fallback>{user?.name?.charAt(0)}</Avatar.Fallback>
             </Avatar>
 
-            <Button onClick={handleSignOut} size="sm">
+            <Button variant="danger" onClick={handleSignOut} size="lg">
               SignOut
             </Button>
           </div>

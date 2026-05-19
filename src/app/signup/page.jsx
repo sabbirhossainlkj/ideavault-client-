@@ -1,6 +1,6 @@
 "use client";
+
 import { authClient } from "@/lib/auth-client";
-import { Check } from "@gravity-ui/icons";
 import {
   Button,
   Description,
@@ -9,21 +9,24 @@ import {
   Input,
   Label,
   TextField,
-  toast,
 } from "@heroui/react";
-import { redirect, useRouter } from "next/navigation";
+import { Check } from "@gravity-ui/icons";
 import { AiFillGoogleCircle } from "react-icons/ai";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
-const signUpPage = () => {
+const SignUpPage = () => {
   const router = useRouter();
 
   const onSubmit = async (e) => {
     e.preventDefault();
+
     const name = e.target.name.value;
     const image = e.target.image.value;
     const email = e.target.email.value;
     const password = e.target.password.value;
-    // console.log({ name, image, email, password });
+
+    const loadingToast = toast.loading("Creating account...");
 
     const { data, error } = await authClient.signUp.email({
       name,
@@ -31,39 +34,48 @@ const signUpPage = () => {
       email,
       password,
     });
-    console.log({ data, error });
 
-    if (data) {
-      redirect("/");
-    }
+    toast.dismiss(loadingToast);
 
     if (error) {
-      //
+      toast.error(error.message || "Signup failed!");
+      return;
+    }
+
+    if (data) {
+      toast.success("Account created successfully!");
+      router.push("/");
     }
   };
+
   const handleGoogleSingIn = async () => {
-    const promise = authClient.signIn.social({
+    toast.loading("Redirecting to Google...");
+
+    authClient.signIn.social({
       provider: "google",
     });
   };
 
   return (
     <div className="w-6/12 space-y-4 mx-auto my-6 border p-6 shadow-2xl py-9 rounded-2xl">
-      <h2 className="text-2xl font-bold text-center">Create Account</h2>
+      <h2 className="text-2xl font-bold text-center">Sign Up</h2>
 
       <Form className="flex flex-col gap-4 space-y-2" onSubmit={onSubmit}>
+        {/* Name */}
         <TextField isRequired name="name" type="text">
           <Label>Name</Label>
           <Input placeholder="Enter your name" />
           <FieldError />
         </TextField>
 
+        {/* Image */}
         <TextField isRequired name="image" type="text">
           <Label>Image URL</Label>
-          <Input placeholder="Image Url" />
+          <Input placeholder="Image URL" />
           <FieldError />
         </TextField>
 
+        {/* Email */}
         <TextField
           isRequired
           name="email"
@@ -80,6 +92,7 @@ const signUpPage = () => {
           <FieldError />
         </TextField>
 
+        {/* Password */}
         <TextField
           isRequired
           minLength={8}
@@ -106,26 +119,27 @@ const signUpPage = () => {
           <FieldError />
         </TextField>
 
-        <div className="flex flex-col gap-3">
-          <Button
-            className="w-full text-white text-md font-bold bg-[#15A1BF]"
-            type="submit"
-          >
-            <Check />
-            Create Account
-          </Button>
-        </div>
+        {/* Submit */}
+        <Button
+          className="w-full text-white text-md font-bold bg-[#15A1BF]"
+          type="submit"
+        >
+          <Check />
+          Create Account
+        </Button>
       </Form>
-      <p className="text-2xl whitespace-nowrap font-bold text-center text-gray-400">
-        Or sing up with
+
+      <p className="text-2xl font-bold text-center text-gray-400">
+        Or sign up with
       </p>
 
-      <Button onClick={handleGoogleSingIn} className="w-full text-xl">
+      {/* Google */}
+      <Button onClick={handleGoogleSingIn} className="w-full bg-[#15A1BF] text-xl">
         <AiFillGoogleCircle />
-        Sign In with Google
+        Sign Up with Google
       </Button>
     </div>
   );
 };
 
-export default signUpPage;
+export default SignUpPage;

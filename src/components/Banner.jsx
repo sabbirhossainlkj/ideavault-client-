@@ -1,66 +1,96 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Pagination } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
 
 const slides = [
   {
-    title: "Launch Your Startup Dream",
-    desc: "Turn innovative ideas into real-world successful businesses with modern technology and smart solutions.",
+    id: 1,
+    image:
+      "https://images.unsplash.com/photo-1521737604893-d14cc237f11d",
+    title: "Turn Ideas Into Reality",
+    desc: "Build, share, and grow your startup ideas with a powerful innovation platform.",
   },
   {
-    title: "Innovate for the Future",
-    desc: "Discover creative startup opportunities that can shape the future of technology and entrepreneurship.",
+    id: 2,
+    image:
+      "https://images.unsplash.com/photo-1559136555-9303baea8ebd",
+    title: "AI-Powered Innovation",
+    desc: "Use modern AI tools to transform your ideas into real-world solutions faster than ever.",
   },
   {
-    title: "Build Something Amazing",
-    desc: "Connect with visionary founders, groundbreaking projects, and powerful startup ecosystems.",
+    id: 3,
+    image:
+      "https://images.unsplash.com/photo-1523961131990-5ea7c61b2107",
+    title: "Connect With Creators",
+    desc: "Join a community of developers, founders, and innovators shaping the future.",
   },
 ];
 
 const Banner = () => {
-  const [current, setCurrent] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % slides.length);
-    }, 4500);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  const goToSlide = (index) => setCurrent(index);
-
   return (
-    <section className="relative w-full h-[75vh] flex items-center justify-center overflow-hidden text-white">
-      <div className="absolute inset-0 bg-gradient-to-br from-[#020617] via-[#0f172a] to-black" />
+    <section className="relative w-full h-[80vh] overflow-hidden">
 
-      <div className="absolute inset-0 opacity-40 bg-[radial-gradient(circle_at_20%_20%,#22d3ee,transparent_40%),radial-gradient(circle_at_80%_30%,#a855f7,transparent_45%),radial-gradient(circle_at_50%_80%,#3b82f6,transparent_45%)]" />
+      <Swiper
+        modules={[Autoplay, Pagination]}
+        autoplay={{ delay: 4000, disableOnInteraction: false }}
+        pagination={{ clickable: true }}
+        loop={true}
+        className="w-full h-full"
+      >
+        {slides.map((slide) => (
+          <SwiperSlide key={slide.id}>
+            
+            <div
+              className="absolute inset-0 bg-cover bg-center scale-110"
+              style={{ backgroundImage: `url(${slide.image})` }}
+            />
 
-      <div className="relative z-10 text-center px-6 max-w-3xl transition-all duration-500">
-        <h1 className="text-4xl md:text-5xl font-bold mb-4 transition-all duration-500">
-          {slides[current].title}
-        </h1>
+            <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/30" />
 
-        <p className="text-gray-300 mb-6 transition-all duration-500">
-          {slides[current].desc}
-        </p>
+            <div className="relative z-20 h-full flex items-center justify-center px-6">
 
-        <button className="px-7 py-3 bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-blue-500 hover:to-cyan-400 transition rounded-full font-semibold shadow-lg">
-          Explore Ideas
-        </button>
-      </div>
+              <div className=" p-8 md:p-12 rounded-2xl text-center max-w-2xl ">
 
-      <div className="absolute bottom-6 flex gap-2 z-10">
-        {slides.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => goToSlide(index)}
-            className={`w-3 h-3 rounded-full transition-all duration-300 ${
-              current === index ? "bg-cyan-400 scale-125" : "bg-white/30"
-            }`}
-          />
+                <h1 className="text-3xl md:text-5xl font-bold text-white mb-4">
+                  {slide.title}
+                </h1>
+
+                <p className="text-gray-200 mb-6">
+                  {slide.desc}
+                </p>
+
+                <button className="px-8 py-3 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 text-white font-semibold rounded-full hover:scale-105 transition-all shadow-lg">
+                  Explore Ideas
+                </button>
+
+              </div>
+
+            </div>
+
+          </SwiperSlide>
         ))}
-      </div>
+      </Swiper>
+
+      <style>{`
+        .swiper-pagination-bullet {
+          background: rgba(255,255,255,0.4);
+          width: 10px;
+          height: 10px;
+          opacity: 1;
+        }
+
+        .swiper-pagination-bullet-active {
+          background: #67e8f9;
+          transform: scale(1.3);
+        }
+
+        .swiper-pagination {
+          bottom: 20px !important;
+        }
+      `}</style>
     </section>
   );
 };
