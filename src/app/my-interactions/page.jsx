@@ -16,8 +16,15 @@ const MyInteractions = () => {
   }, [user]);
 
   const fetchInteractions = async () => {
+    const { data: tokenData } = await authClient.token();
+    console.log(tokenData);
     const res = await fetch(
-      `http://localhost:5000/my-interactions?userId=${user.id}`
+      `http://localhost:5000/my-interactions?userId=${user.id}`,
+      {
+        headers: {
+          authorization: `Bearer ${tokenData?.token}`,
+        },
+      },
     );
 
     const data = await res.json();
@@ -27,10 +34,7 @@ const MyInteractions = () => {
 
   return (
     <div className="max-w-5xl mx-auto py-10 px-4">
-      
-      <h2 className="text-4xl font-bold text-center mb-3">
-        My Interactions 
-      </h2>
+      <h2 className="text-4xl font-bold text-center mb-3">My Interactions</h2>
 
       <div className="flex justify-center mb-8">
         <div className="px-6 py-2 rounded-full bg-black text-white font-semibold shadow-md">
@@ -40,9 +44,7 @@ const MyInteractions = () => {
 
       <div className="space-y-5">
         {comments.length === 0 ? (
-          <p className="text-center text-gray-500">
-            No interactions found 😔
-          </p>
+          <p className="text-center text-gray-500">No interactions found </p>
         ) : (
           comments.map((comment) => (
             <div
@@ -53,9 +55,7 @@ const MyInteractions = () => {
                 {comment.ideaTitle}
               </h3>
 
-              <p className="mt-3 text-gray-600">
-                {comment.comment}
-              </p>
+              <p className="mt-3 text-gray-600">{comment.comment}</p>
 
               <p className="text-sm text-gray-400 mt-2">
                 {new Date(comment.createdAt).toLocaleString()}

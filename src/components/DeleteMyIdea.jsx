@@ -1,5 +1,6 @@
 "use client";
 
+import { authClient } from "@/lib/auth-client";
 import { AlertDialog, Button } from "@heroui/react";
 import { Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -10,11 +11,17 @@ export function DeleteMyIdea({ idea }) {
   const router = useRouter();
 
   const handleDeleteIdea = async () => {
+     const { data: tokenData } = await authClient.token();
+        console.log(tokenData);
     try {
       const res = await fetch(
         `http://localhost:5000/idea/${_id}?userId=${userId}`,
         {
           method: "DELETE",
+          headers: {
+            "content-type": "application/json",
+            authorization: `Bearer ${tokenData?.token}`,
+          }
         }
       );
 

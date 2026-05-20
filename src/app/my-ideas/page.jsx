@@ -25,8 +25,15 @@ const MyIdeasPage = () => {
     setLoading(true);
 
     try {
+      const { data: tokenData } = await authClient.token();
+      console.log(tokenData);
       const res = await fetch(
         `http://localhost:5000/my-ideas?userId=${user.id}`,
+        {
+          headers: {
+            authorization: `Bearer ${tokenData?.token}`,
+          },
+        },
       );
 
       const data = await res.json();

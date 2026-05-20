@@ -5,10 +5,18 @@ import { Button } from "@heroui/react";
 import { DeleteComment } from "./DeleteComment";
 import { UpdateComment } from "./UpdateComment";
 import { CommentSlash } from "@gravity-ui/icons";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 
 const CommentCard = async () => {
+  const { token } = await auth.api.getToken({
+    headers: await headers(),
+  });
   const res = await fetch("http://localhost:5000/comment", {
     cache: "no-store",
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
   });
 
   const comments = await res.json();

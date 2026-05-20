@@ -1,4 +1,5 @@
 "use client";
+import { authClient } from "@/lib/auth-client";
 import { Envelope } from "@gravity-ui/icons";
 import {
   Button,
@@ -20,13 +21,15 @@ export function UpdateComment({ coment }) {
 
     const formData = new FormData(e.currentTarget);
     const ideaData = Object.fromEntries(formData.entries());
-
+    const { data: tokenData } = await authClient.token();
+    console.log(tokenData);
     const res = await fetch(
       `http://localhost:5000/comment/${_id}?userId=${userId}`,
       {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
+          authorization: `Bearer ${tokenData?.token}`,
         },
         body: JSON.stringify({
           comment: ideaData.comment,

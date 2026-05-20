@@ -1,11 +1,21 @@
 import CommentCard from "@/components/CommentCard";
 import PostComment from "@/components/PostComment";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 import Image from "next/image";
 import React from "react";
 
 const IdeaDetailsPage = async ({ params }) => {
   const { id } = await params;
-  const res = await fetch(`http://localhost:5000/idea/${id}`);
+  const {token} = await auth.api.getToken({
+    headers: await headers(),
+  })
+
+  const res = await fetch(`http://localhost:5000/idea/${id}`,{
+    headers: {
+      authorization: `Bearer ${token}`
+    }
+  });
   const ideas = await res.json();
   const {
     title,

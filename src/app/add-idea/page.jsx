@@ -7,8 +7,6 @@ import toast from "react-hot-toast";
 export default function IdeaForm() {
   const { data: session } = authClient.useSession();
   const user = session?.user;
-  console.log(user);
-
 
   const [form, setForm] = useState({
     title: "",
@@ -32,26 +30,30 @@ export default function IdeaForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-     const userData = {
+    const userData = {
       userId: user?.id,
       userImage: user?.image,
       userName: user?.name,
       userEmail: user?.email,
     };
-    console.log(userData)
+    console.log(userData);
     const toastId = toast.loading("Submitting idea...");
 
     try {
       const formData = new FormData(e.currentTarget);
       const idea = Object.fromEntries(formData.entries());
-           console.log(idea)
+      console.log(idea);
+      const { data: tokenData } = await authClient.token();
+      console.log(tokenData);
       const res = await fetch("http://localhost:5000/idea", {
         method: "POST",
         headers: {
           "content-type": "application/json",
+          authorization: `Bearer ${tokenData?.token}`,
         },
         body: JSON.stringify({
-          ...idea,...userData,
+          ...idea,
+          ...userData,
         }),
       });
 

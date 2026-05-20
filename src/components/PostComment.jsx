@@ -27,12 +27,14 @@ const PostComment = ({ ideas }) => {
       comment,
       createdAt: new Date(),
     };
-
+    const { data: tokenData } = await authClient.token();
+    console.log(tokenData);
     try {
       const res = await fetch("http://localhost:5000/comment", {
         method: "POST",
         headers: {
           "content-type": "application/json",
+          authorization: `Bearer ${tokenData?.token}`,
         },
         body: JSON.stringify(commentData),
       });
@@ -51,6 +53,7 @@ const PostComment = ({ ideas }) => {
 
       toast.error("Something went wrong");
     }
+    // revalidatePath('/')
   };
 
   return (

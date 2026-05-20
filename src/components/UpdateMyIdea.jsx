@@ -1,5 +1,6 @@
 "use client";
 
+import { authClient } from "@/lib/auth-client";
 import { Envelope } from "@gravity-ui/icons";
 import {
   Button,
@@ -23,7 +24,8 @@ export function UpdateMyIdea({ idea }) {
 
     const formData = new FormData(e.currentTarget);
     const ideaData = Object.fromEntries(formData.entries());
-
+    const { data: tokenData } = await authClient.token();
+    console.log(tokenData);
     try {
       const res = await fetch(
         `http://localhost:5000/idea/${_id}?userId=${userId}`,
@@ -31,13 +33,14 @@ export function UpdateMyIdea({ idea }) {
           method: "PATCH",
           headers: {
             "content-type": "application/json",
+            authorization: `Bearer ${tokenData?.token}`,
           },
           body: JSON.stringify(ideaData),
-        }
+        },
       );
 
       const data = await res.json();
-      console.log(data)
+      console.log(data);
 
       if (data.success) {
         toast.success("Idea updated successfully ");
@@ -74,10 +77,7 @@ export function UpdateMyIdea({ idea }) {
                       <TextField defaultValue={title} name="title" isRequired>
                         <Label>Title</Label>
 
-                        <Input
-                          placeholder="AI Study"
-                          className="rounded-2xl"
-                        />
+                        <Input placeholder="AI Study" className="rounded-2xl" />
 
                         <FieldError />
                       </TextField>
