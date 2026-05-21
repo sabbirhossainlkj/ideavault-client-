@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
-import { ArrowRight, Layers3, Lightbulb, Pencil } from "lucide-react";
+import { ArrowRight, Layers3, Lightbulb } from "lucide-react";
 import Image from "next/image";
 import { UpdateMyIdea } from "@/components/UpdateMyIdea";
 import { DeleteMyIdea } from "@/components/DeleteMyIdea";
@@ -16,109 +16,137 @@ const MyIdeasPage = () => {
   const user = session?.user;
 
   useEffect(() => {
-    if (user?.id) {
-      fetchMyIdeas();
-    }
+    if (user?.id) fetchIdeas();
   }, [user]);
 
-  const fetchMyIdeas = async () => {
+  const fetchIdeas = async () => {
     setLoading(true);
 
     try {
       const { data: tokenData } = await authClient.token();
-      console.log(tokenData);
+
       const res = await fetch(
-        `http://localhost:5000/my-ideas?userId=${user.id}`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/my-ideas?userId=${user.id}`,
         {
           headers: {
             authorization: `Bearer ${tokenData?.token}`,
           },
-        },
+        }
       );
 
       const data = await res.json();
-      setIdeas(data);
-    } catch (error) {
-      console.log(error);
+      setIdeas(Array.isArray(data) ? data : []);
+    } catch (err) {
+      console.error(err);
+      setIdeas([]);
     } finally {
       setLoading(false);
     }
   };
 
   if (isPending) {
-    return <div className="text-center py-10 text-xl">Loading session...</div>;
+    return (
+      <p className="text-center py-10 text-lg">
+        Loading session...
+      </p>
+    );
   }
 
   return (
-    <div className="my-6 w-11/12 lg:w-10/12 mx-auto">
-      <h2 className="text-3xl font-bold text-center my-6">My Ideas</h2>
+    <section className="w-11/12 lg:w-10/12 mx-auto my-10">
+      
+      {/* Heading */}
+      <h1 className="text-3xl font-bold text-center mb-10">
+        My Ideas
+      </h1>
 
+      {/* Loading */}
       {loading && (
-        <p className="text-center text-gray-500 mb-4">Loading ideas...</p>
+        <p className="text-center text-gray-500 mb-6">
+          Loading ideas...
+        </p>
       )}
 
+      {/* Empty */}
       {!loading && ideas.length === 0 && (
-        <div className="text-center py-10 border rounded-xl bg-gray-50">
+        <div className="text-center py-12 border rounded-2xl bg-gray-50">
           <h3 className="text-xl font-semibold text-gray-600">
             No Ideas Found
           </h3>
-          <p className="text-gray-400 mt-2">You haven't added any ideas yet.</p>
+          <p className="text-gray-400 mt-2">
+            You haven't added any ideas yet.
+          </p>
         </div>
       )}
 
+      {/* Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {ideas.map((idea) => (
-          <div key={idea._id} className="relative">
-            <div className="group relative overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
-              <div className="relative h-56 overflow-hidden">
-                <Image
-                  src={idea.imageUrl}
-                  alt={idea.title}
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-110"
-                />
+          <div
+            key={idea._id}
+            className="group relative overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl"
+          >
+            {/* IMAGE */}
+            <div className="relative h-56 overflow-hidden">
+              <Image
+                src={idea.imageUrl}
+                alt={idea.title}
+                fill
+                className="object-cover transition-transform duration-500 group-hover:scale-110"
+              />
 
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+              {/* Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
-                <div className="absolute top-4 left-4 flex items-center gap-2 rounded-full bg-white/90 px-4 py-1 text-sm font-semibold text-gray-800 shadow">
-                  <Layers3 size={16} />
-                  {idea.category}
-                </div>
-                <div className="absolute top-4 right-2 z-30 flex items-center justify-center gap-2 px-4">
-                  <UpdateMyIdea idea={idea} />
-                  <DeleteMyIdea idea={idea} />
-                </div>
+              {/* Category */}
+              <div className="absolute top-4 left-4 flex items-center gap-2 rounded-full bg-white/90 px-4 py-1 text-xs font-semibold text-gray-800 shadow">
+                <Layers3 size={14} />
+                {idea.category}
               </div>
 
-              <div className="space-y-4 p-5">
-                <div className="flex items-start gap-3">
-                  <div className="rounded-xl bg-blue-100 p-2 text-blue-600">
-                    <Lightbulb size={20} />
-                  </div>
+              {/* Actions */}
+              <div className="absolute top-4 right-4 flex gap-2 z-20">
+                <UpdateMyIdea idea={idea} />
+                <DeleteMyIdea idea={idea} />
+              </div>
 
-                  <h2 className="line-clamp-2 text-xl font-bold text-gray-900">
-                    {idea.title}
-                  </h2>
+              {/* Title on image */}
+              <div className="absolute bottom-4 left-4 right-4">
+                <h2 className="text-lg font-bold text-white line-clamp-2">
+                  {idea.title}
+                </h2>
+              </div>
+            </div>
+
+            {/* CONTENT */}
+            <div className="p-5 space-y-4">
+              
+              {/* Description */}
+              <div className="flex gap-3 items-start">
+                <div className="rounded-xl bg-cyan-100 p-2 text-cyan-600">
+                  <Lightbulb size={18} />
                 </div>
 
-                <p className="line-clamp-3 text-sm leading-relaxed text-gray-600">
+                <p className="text-sm text-gray-600 line-clamp-3">
                   {idea.shortDescription}
                 </p>
-
-                <Link href={`/ideas/${idea._id}`}>
-                  <button className="flex w-full items-center justify-center gap-2 rounded-xl bg-black px-5 py-3 font-medium text-white transition-all duration-300 hover:bg-blue-600">
-                    View Details
-                    <ArrowRight size={18} />
-                  </button>
-                </Link>
               </div>
 
-              <div className="absolute -bottom-16 -right-16 h-40 w-40 rounded-full bg-blue-500/10 blur-3xl" />
+              {/* Button */}
+              <Link href={`/ideas/${idea._id}`}>
+                <button className="w-full flex items-center justify-center gap-2 rounded-xl bg-black px-5 py-3 font-medium text-white transition hover:bg-cyan-500">
+                  View Details
+                  <ArrowRight size={16} />
+                </button>
+              </Link>
             </div>
+
+            {/* Glow */}
+            <div className="absolute -bottom-16 -right-16 h-40 w-40 rounded-full bg-cyan-500/10 blur-3xl" />
           </div>
         ))}
       </div>
-    </div>
+    </section>
   );
 };
 

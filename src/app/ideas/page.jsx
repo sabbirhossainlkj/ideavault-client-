@@ -19,7 +19,7 @@ const IdeaPage = () => {
 
   const fetchAllIdeas = async () => {
     setLoading(true);
-    const res = await fetch("http://localhost:5000/idea");
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/idea`);
     const data = await res.json();
     setIdeas(data);
     setLoading(false);
@@ -35,7 +35,7 @@ const IdeaPage = () => {
 
     setLoading(true);
 
-    const res = await fetch(`http://localhost:5000/ideas/search?q=${query}`);
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/ideas/search?q=${query}`);
 
     const data = await res.json();
     setIdeas(data);
@@ -45,7 +45,7 @@ const IdeaPage = () => {
   const handleFilter = async () => {
     setLoading(true);
 
-    let url = "http://localhost:5000/ideas/filter?";
+    let url = `${process.env.NEXT_PUBLIC_SERVER_URL}/ideas/filter?`;
 
     if (category) url += `category=${category}&`;
     if (startDate) url += `startDate=${startDate}&`;
@@ -105,7 +105,7 @@ const IdeaPage = () => {
 
         <button
           onClick={handleFilter}
-          className="bg-purple-500 text-white px-6 py-2 rounded-xl"
+          className="bg-cyan-500 text-white px-6 py-2 rounded-xl"
         >
           Apply Filter
         </button>

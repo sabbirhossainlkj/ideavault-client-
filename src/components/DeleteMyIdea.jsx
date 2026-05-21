@@ -15,7 +15,7 @@ export function DeleteMyIdea({ idea }) {
         console.log(tokenData);
     try {
       const res = await fetch(
-        `http://localhost:5000/idea/${_id}?userId=${userId}`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/idea/${_id}?userId=${userId}`,
         {
           method: "DELETE",
           headers: {
@@ -44,8 +44,8 @@ export function DeleteMyIdea({ idea }) {
   return (
     <AlertDialog>
       <Button
-        variant="danger"
-        className="flex items-center gap-2 px-6 py-3 bg-red-500 hover:bg-red-600 text-white rounded-xl transition-all duration-300 shadow-md hover:shadow-lg"
+        variant="danger-soft"
+        className="flex items-center gap-2 px-6 py-3 rounded-xl transition-all duration-300 shadow-md hover:shadow-lg"
       >
         <Trash2 size={18} />
         Delete

@@ -19,7 +19,7 @@ const MyInteractions = () => {
     const { data: tokenData } = await authClient.token();
     console.log(tokenData);
     const res = await fetch(
-      `http://localhost:5000/my-interactions?userId=${user.id}`,
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/my-interactions?userId=${user.id}`,
       {
         headers: {
           authorization: `Bearer ${tokenData?.token}`,
@@ -37,7 +37,7 @@ const MyInteractions = () => {
       <h2 className="text-4xl font-bold text-center mb-3">My Interactions</h2>
 
       <div className="flex justify-center mb-8">
-        <div className="px-6 py-2 rounded-full bg-black text-white font-semibold shadow-md">
+        <div className="px-6 py-2 rounded-full bg-cyan-500 text-white font-semibold shadow-md">
           Total Comments: {comments.length}
         </div>
       </div>

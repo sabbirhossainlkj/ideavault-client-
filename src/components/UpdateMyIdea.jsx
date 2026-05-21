@@ -28,7 +28,7 @@ export function UpdateMyIdea({ idea }) {
     console.log(tokenData);
     try {
       const res = await fetch(
-        `http://localhost:5000/idea/${_id}?userId=${userId}`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/idea/${_id}?userId=${userId}`,
         {
           method: "PATCH",
           headers: {
@@ -55,7 +55,7 @@ export function UpdateMyIdea({ idea }) {
 
   return (
     <Modal>
-      <Button className="z-20 flex items-center gap-2 hover:bg-yellow-600 text-white px-3 py-2 rounded-xl shadow-md">
+      <Button variant="secondary" className="z-20 flex items-center gap-2   px-3 py-2 rounded-xl shadow-md">
         <Pencil size={16} /> Edit
       </Button>
 

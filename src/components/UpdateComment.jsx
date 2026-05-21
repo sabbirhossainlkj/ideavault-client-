@@ -1,4 +1,5 @@
 "use client";
+
 import { authClient } from "@/lib/auth-client";
 import { Envelope } from "@gravity-ui/icons";
 import {
@@ -9,41 +10,56 @@ import {
   Modal,
   Surface,
   TextField,
-  Select,
-  ListBox,
 } from "@heroui/react";
+
 import { Pencil } from "lucide-react";
+import toast from "react-hot-toast";
 
 export function UpdateComment({ coment }) {
   const { _id, userId, comment } = coment;
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    const formData = new FormData(e.currentTarget);
-    const ideaData = Object.fromEntries(formData.entries());
-    const { data: tokenData } = await authClient.token();
-    console.log(tokenData);
-    const res = await fetch(
-      `http://localhost:5000/comment/${_id}?userId=${userId}`,
-      {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          authorization: `Bearer ${tokenData?.token}`,
-        },
-        body: JSON.stringify({
-          comment: ideaData.comment,
-        }),
-      },
-    );
+    try {
+      const formData = new FormData(e.currentTarget);
 
-    const data = await res.json();
-    console.log(data);
-  };
+      const ideaData = Object.fromEntries(formData.entries());
+
+      const { data: tokenData } = await authClient.token();
+
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/comment/${_id}?userId=${userId}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${tokenData?.token}`,
+          },
+          body: JSON.stringify({
+            comment: ideaData.comment,
+          }),
+        },
+      );
+
+      const data = await res.json();
+
+      if (res.ok) {
+        toast.success("Comment updated successfully!");
+      } else {
+        toast.error(data?.message || "Failed to update comment");
+      }
+
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+
+      toast.error("Something went wrong!");
+    }
+  }
 
   return (
     <Modal>
-      <Button className="z-20 flex items-center gap-2 hover:bg-yellow-600 text-white px-3 py-2 rounded-xl shadow-md">
+      <Button variant="secondary" className="z-20 flex items-center gap-2  px-3 py-2 rounded-xl shadow-md">
         <Pencil size={16} /> Edit
       </Button>
 
@@ -54,13 +70,13 @@ export function UpdateComment({ coment }) {
 
             <Modal.Header>
               <Envelope className="size-5" />
-              <Modal.Heading>Update My comment</Modal.Heading>
+              <Modal.Heading>Update My Comment</Modal.Heading>
             </Modal.Header>
 
             <Modal.Body className="p-6">
               <Surface variant="default">
                 <form className="p-10 space-y-8" onSubmit={onSubmit}>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="grid grid-cols-1 gap-8">
                     <TextField defaultValue={comment} name="comment" isRequired>
                       <Label>User Comment</Label>
 

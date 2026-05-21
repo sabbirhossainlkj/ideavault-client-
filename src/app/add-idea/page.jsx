@@ -45,7 +45,7 @@ export default function IdeaForm() {
       console.log(idea);
       const { data: tokenData } = await authClient.token();
       console.log(tokenData);
-      const res = await fetch("http://localhost:5000/idea", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/idea`, {
         method: "POST",
         headers: {
           "content-type": "application/json",
@@ -170,7 +170,7 @@ export default function IdeaForm() {
         />
         <button
           type="submit"
-          className="bg-blue-600 text-white px-4 py-2 rounded"
+          className=" bg-cyan-500 text-white px-4 py-2 rounded"
         >
           Submit Idea
         </button>{" "}

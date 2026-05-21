@@ -2,7 +2,7 @@ import React from "react";
 import IdeaCard from "./IdeaCard";
 
 const Trending = async () => {
-  const res = await fetch("http://localhost:5000/trending", {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/trending`, {
     cache: "no-store",
   });
 
@@ -13,7 +13,7 @@ const Trending = async () => {
 
       <div className="max-w-6xl mx-auto">
 
-        <h2 className="text-3xl font-bold my-6 text-center text-gray-800">
+        <h2 className="text-4xl font-extrabold my-6 text-center text-gray-800">
            Trending Ideas Section
         </h2>
 

@@ -63,7 +63,6 @@ const Navbar = () => {
       {/* Desktop + Mobile Navbar */}
       <div className="flex justify-between items-center px-4 md:px-8 py-4">
         
-        {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
           <Image
             src="/assets/idea.png"
@@ -78,7 +77,6 @@ const Navbar = () => {
           </p>
         </Link>
 
-        {/* Desktop Menu */}
         <div className="hidden lg:flex gap-6 font-bold items-center text-lg">
           <Link href="/" className={navLink("/")}>
             Home
@@ -114,10 +112,8 @@ const Navbar = () => {
           )}
         </div>
 
-        {/* Right Side */}
         <div className="flex items-center gap-3">
           
-          {/* Theme Button */}
           <button
             onClick={toggleTheme}
             className="p-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-black dark:text-white transition"
@@ -129,7 +125,6 @@ const Navbar = () => {
             )}
           </button>
 
-          {/* Desktop Auth */}
           <div className="hidden lg:flex items-center gap-4 font-bold">
             {!user ? (
               <>
@@ -191,7 +186,6 @@ const Navbar = () => {
             )}
           </div>
 
-          {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenu(!mobileMenu)}
             className="lg:hidden text-white"
@@ -201,7 +195,6 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Menu */}
       {mobileMenu && (
         <div className="lg:hidden px-4 pb-5 flex flex-col gap-4 font-semibold text-base bg-[#0f172a]/95 backdrop-blur-md">
           

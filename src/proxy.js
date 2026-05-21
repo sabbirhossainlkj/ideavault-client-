@@ -17,6 +17,5 @@ export const config = {
     "/add-idea",
     "/ideas/:path",
     "/my-interactions",
-    "/my-interactions",
   ],
 };

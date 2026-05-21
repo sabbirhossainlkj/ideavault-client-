@@ -13,7 +13,7 @@ export function DeleteComment({ coment, onDelete }) {
     console.log(tokenData);
     try {
       const res = await fetch(
-        `http://localhost:5000/comment/${_id}?userId=${userId}`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/comment/${_id}?userId=${userId}`,
         {
           method: "DELETE",
           headers: {
@@ -43,8 +43,8 @@ export function DeleteComment({ coment, onDelete }) {
   return (
     <AlertDialog>
       <Button
-        variant="danger"
-        className="flex items-center gap-2 px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-xl transition-all duration-300 shadow-md"
+        variant="danger-soft"
+        className="flex items-center gap-2 px-4 py-2  rounded-xl transition-all duration-300 shadow-md"
       >
         <Trash2 size={18} />
         Delete
