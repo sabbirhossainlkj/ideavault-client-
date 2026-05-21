@@ -55,19 +55,16 @@ const MyIdeasPage = () => {
   return (
     <section className="w-11/12 lg:w-10/12 mx-auto my-10">
       
-      {/* Heading */}
       <h1 className="text-3xl font-bold text-center mb-10">
         My Ideas
       </h1>
 
-      {/* Loading */}
       {loading && (
         <p className="text-center text-gray-500 mb-6">
           Loading ideas...
         </p>
       )}
 
-      {/* Empty */}
       {!loading && ideas.length === 0 && (
         <div className="text-center py-12 border rounded-2xl bg-gray-50">
           <h3 className="text-xl font-semibold text-gray-600">
@@ -79,14 +76,12 @@ const MyIdeasPage = () => {
         </div>
       )}
 
-      {/* Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {ideas.map((idea) => (
           <div
             key={idea._id}
             className="group relative overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl"
           >
-            {/* IMAGE */}
             <div className="relative h-56 overflow-hidden">
               <Image
                 src={idea.imageUrl}
@@ -95,22 +90,18 @@ const MyIdeasPage = () => {
                 className="object-cover transition-transform duration-500 group-hover:scale-110"
               />
 
-              {/* Overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
-              {/* Category */}
               <div className="absolute top-4 left-4 flex items-center gap-2 rounded-full bg-white/90 px-4 py-1 text-xs font-semibold text-gray-800 shadow">
                 <Layers3 size={14} />
                 {idea.category}
               </div>
 
-              {/* Actions */}
               <div className="absolute top-4 right-4 flex gap-2 z-20">
                 <UpdateMyIdea idea={idea} />
                 <DeleteMyIdea idea={idea} />
               </div>
 
-              {/* Title on image */}
               <div className="absolute bottom-4 left-4 right-4">
                 <h2 className="text-lg font-bold text-white line-clamp-2">
                   {idea.title}
@@ -118,10 +109,8 @@ const MyIdeasPage = () => {
               </div>
             </div>
 
-            {/* CONTENT */}
             <div className="p-5 space-y-4">
               
-              {/* Description */}
               <div className="flex gap-3 items-start">
                 <div className="rounded-xl bg-cyan-100 p-2 text-cyan-600">
                   <Lightbulb size={18} />
@@ -132,7 +121,6 @@ const MyIdeasPage = () => {
                 </p>
               </div>
 
-              {/* Button */}
               <Link href={`/ideas/${idea._id}`}>
                 <button className="w-full flex items-center justify-center gap-2 rounded-xl bg-black px-5 py-3 font-medium text-white transition hover:bg-cyan-500">
                   View Details
@@ -141,7 +129,6 @@ const MyIdeasPage = () => {
               </Link>
             </div>
 
-            {/* Glow */}
             <div className="absolute -bottom-16 -right-16 h-40 w-40 rounded-full bg-cyan-500/10 blur-3xl" />
           </div>
         ))}

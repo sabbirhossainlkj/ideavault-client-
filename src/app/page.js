@@ -1,15 +1,17 @@
 import About from "@/components/About";
 import Banner from "@/components/Banner";
-import Insights from "@/components/Insights";
+import Categories from "@/components/Categories";
+import Newsletter from "@/components/Newsletter";
 import Trending from "@/components/Trending";
 
 export default function Home() {
   return (
    <>
    <Banner></Banner>
-   <Trending></Trending>
    <About></About>
-   <Insights></Insights>
+   <Trending></Trending>
+   <Categories></Categories>
+   <Newsletter></Newsletter>
    </>
   );
 }
